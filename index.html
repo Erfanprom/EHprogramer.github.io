@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سایت من - تم جدید</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a2a2a, #2e3f3f, #4a5e5e);
+            color: #e0e0e0; line-height: 1.9; overflow-x: hidden; overflow-y: auto;
+            min-height: 100vh; position: relative;
+        }
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.9) 100%);
+            z-index: -2; animation: glowPulse 15s infinite ease-in-out;
+        }
+        header {
+            background: linear-gradient(120deg, #2a9d8f, #264653); padding: 120px 20px;
+            text-align: center; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); position: relative; z-index: 10;
+        }
+        header h1 {
+            font-size: 4.5em; text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.7); position: relative; z-index: 1;
+            background: linear-gradient(45deg, #2a9d8f, #e9c46a, #264653);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        nav {
+            background: rgba(26, 42, 42, 0.9); padding: 20px; text-align: center;
+            position: sticky; top: 0; z-index: 100; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+        nav a {
+            color: #e0e0e0; text-decoration: none; margin: 0 15px; font-size: 1.2em;
+            position: relative; transition: all 0.5s ease; cursor: pointer;
+        }
+        nav a::after {
+            content: ''; position: absolute; width: 0; height: 3px;
+            background: linear-gradient(to right, #2a9d8f, #e9c46a); bottom: -10px; right: 0;
+            transition: width 0.5s ease;
+        }
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        nav a:hover, nav a.active {
+            color: #2a9d8f; text-shadow: 0 0 15px #2a9d8f; transform: scale(1.1);
+        }
+        .container {
+            max-width: 1300px; margin: 40px auto; padding: 40px;
+            background: rgba(255, 255, 255, 0.95); border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); position: relative;
+        }
+        .section {
+            display: none; opacity: 0; transform: translateY(30px); transition: all 0.6s ease;
+            margin-bottom: 40px;
+        }
+        .section.active { display: block; opacity: 1; transform: translateY(0); }
+        h2 {
+            color: #264653; font-size: 2.5em; margin-bottom: 25px; position: relative;
+            letter-spacing: 2px; text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+        }
+        h2::before {
+            content: ''; width: 80px; height: 4px; background: linear-gradient(to right, #2a9d8f, #e9c46a);
+            position: absolute; bottom: -10px; right: 0; border-radius: 2px;
+        }
+        h3 { color: #fff; font-size: 1.6em; margin-bottom: 10px; }
+        p { color: #444; font-size: 1.3em; margin-bottom: 20px; }
+        .profile-img {
+            width: 220px; height: 220px; border-radius: 50%; margin: 30px auto; display: block;
+            border: 8px solid #fff; box-shadow: 0 0 30px rgba(42, 157, 143, 0.6); transition: all 0.8s ease;
+        }
+        .profile-img:hover { transform: scale(1.2); box-shadow: 0 0 50px rgba(42, 157, 143, 0.9); }
+        .grid-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px; margin-top: 30px;
+        }
+        .card {
+            background: linear-gradient(135deg, #2a9d8f, #264653); color: white; padding: 20px;
+            border-radius: 15px; text-align: center; transition: all 0.5s ease;
+            animation: bounceUp 0.7s ease forwards; animation-delay: calc(0.2s * var(--i));
+            position: relative; overflow: hidden; cursor: pointer;
+        }
+        .card::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            opacity: 0; transition: opacity 0.5s ease;
+        }
+        .card:hover::before { opacity: 0.3; }
+        .card:hover {
+            transform: translateY(-10px) scale(1.05); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+        button {
+            background: linear-gradient(45deg, #2a9d8f, #e9c46a); color: white; border: none;
+            padding: 15px 40px; font-size: 1.4em; border-radius: 50px; cursor: pointer;
+            transition: all 0.6s ease; box-shadow: 0 5px 15px rgba(42, 157, 143, 0.5);
+            position: relative; overflow: hidden; margin-top: 20px;
+        }
+        button::before {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0;
+            background: rgba(255, 255, 255, 0.3); border-radius: 50%; transform: translate(-50%, -50%);
+            transition: width 0.7s ease, height 0.7s ease;
+        }
+        button:hover::before { width: 300px; height: 300px; }
+        button:hover {
+            transform: scale(1.1); box-shadow: 0 10px 30px rgba(42, 157, 143, 0.8);
+        }
+        .timer { font-size: 1.6em; color: #2a9d8f; text-align: center; margin-top: 20px; }
+        .social-links { margin-top: 20px; display: flex; justify-content: center; gap: 20px; }
+        .social-links a { color: #2a9d8f; font-size: 1.5em; text-decoration: none; transition: all 0.3s ease; }
+        .social-links a:hover { color: #e9c46a; transform: scale(1.2); }
+        .video-container { margin: 20px 0; text-align: center; }
+        .video-container iframe { max-width: 100%; border-radius: 10px; }
+        .particle {
+            position: absolute; width: 4px; height: 4px; background: #2a9d8f; border-radius: 50%;
+            pointer-events: none; animation: particleMove 2s ease-out forwards; z-index: 5;
+        }
+        footer {
+            background: linear-gradient(to right, #1a2a2a, #2e3f3f); color: #e0e0e0; text-align: center;
+            padding: 30px; width: 100%; box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5); z-index: 10; margin-top: 40px;
+        }
+        footer p { font-size: 1.2em; }
+
+        /* انیمیشن‌ها */
+        @keyframes glowPulse { 0%, 100% { opacity: 0.05; } 50% { opacity: 0.15; } }
+        @keyframes bounceUp { from { opacity: 0; transform: translateY(40px) scale(0.8); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes particleMove { 0% { opacity: 1; transform: translate(0, 0); } 100% { opacity: 0; transform: translate(var(--x), var(--y)); } }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>به دنیای من خوش آمدید</h1>
+    </header>
+    <nav>
+        <a data-section="home" class="active">خانه</a>
+        <a data-section="about">درباره من</a>
+        <a data-section="skills">مهارت‌ها</a>
+        <a data-section="projects">پروژه‌ها</a>
+        <a data-section="gallery">گالری</a>
+        <a data-section="blog">وبلاگ</a>
+        <a data-section="experience">تجربیات</a>
+        <a data-section="store">فروشگاه</a>
+        <a data-section="portfolio">پورتفولیو</a>
+        <a data-section="testimonials">نظرات</a>
+        <a data-section="faq">سوالات متداول</a>
+        <a data-section="events">رویدادها</a>
+        <a data-section="resources">منابع</a>
+        <a data-section="tutorials">آموزش‌ها</a>
+        <a data-section="contact">تماس با من</a>
+    </nav>
+    <div class="container">
+        <section id="home" class="section active">
+            <h2>خوش آمدید</h2>
+            <img src="https://via.placeholder.com/220" alt="عکس من" class="profile-img">
+            <p>به سایت شخصی من خوش اومدید! اینجا جاییه که خلاقیت، تکنولوژی و ایده‌هام با هم ترکیب می‌شن.</p>
+            <p>من عرفان حدادی هستم، یه توسعه‌دهنده، طراح و خالق محتوای دیجیتال. این سایت یه سفره به دنیای من—پر از پروژه‌ها، تجربیات و چیزایی که بهشون علاقه دارم.</p>
+            <p>هر بخش از این سایت رو با عشق طراحی کردم تا شما رو با کارهام، مهارت‌هام و داستانم آشنا کنه. امیدوارم لذت ببرید!</p>
+            <button>بیشتر درباره من</button>
+        </section>
+
+        <section id="about" class="section">
+            <h2>درباره من</h2>
+            <img src="https://via.placeholder.com/220" alt="عکس من" class="profile-img">
+            <p>سلام! من عرفان حدادی هستم، متولد 1388/5/24 توی تبریز. از وقتی یادم میاد عاشق حل مسئله و خلق چیزای جدید بودم.</p>
+            <p>خارج از کار، عاشق سفر، عکاسی، و خوندن کتاب‌های علمی‌تخیلی‌ام. موسیقی هم بخش بزرگی از زندگیمه—از کلاسیک تا الکترونیک!</p>
+            <p>این سایت رو ساختم تا هم خودم رو معرفی کنم و هم یه فضا برای به اشتراک گذاشتن کارهام داشته باشم.</p>
+            <p>اگه بخوام خودمو تو چند کلمه بگم: خلاق، دقیق، و همیشه مشتاق یادگیری!</p>
+        </section>
+
+        <section id="skills" class="section">
+            <h2>مهارت‌های من</h2>
+            <p>اینجا مهارت‌هایی که توی این سال‌ها یاد گرفتم رو براتون لیست کردم:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">HTML5 و CSS3 - طراحی وب مدرن</div>
+                <div class="card" style="--i: 2;">JavaScript - برنامه‌نویسی تعاملی</div>
+                <div class="card" style="--i: 3;">React - رابط‌های کاربری پویا</div>
+                <div class="card" style="--i: 4;">طراحی UI/UX - تجربه کاربری</div>
+                <div class="card" style="--i: 5;">انیمیشن‌سازی - افکت‌های بصری</div>
+                <div class="card" style="--i: 6;">فتوشاپ و ایلاستریتور - گرافیک</div>
+                <div class="card" style="--i: 7;">Node.js - بک‌اند وب</div>
+                <div class="card" style="--i: 8;">Git و GitHub - کنترل نسخه</div>
+                <div class="card" style="--i: 9;">SEO و بازاریابی دیجیتال</div>
+                <div class="card" style="--i: 10;">پایتون - اسکریپت‌نویسی</div>
+            </div>
+            <p>هر کدوم از این مهارت‌ها رو با پروژه‌های عملی تقویت کردم و هنوزم دارم چیزای جدید یاد می‌گیرم.</p>
+        </section>
+
+        <section id="projects" class="section">
+            <h2>پروژه‌های من</h2>
+            <p>اینجا یه مجموعه از پروژه‌هامه:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">وبسایت فروشگاهی - پلتفرم خرید آنلاین</div>
+                <div class="card" style="--i: 2;">اپلیکیشن مدیریت وظایف - ابزار بهره‌وری</div>
+                <div class="card" style="--i: 3;">طراحی سه‌بعدی شهر - مدلسازی</div>
+                <div class="card" style="--i: 4;">بازی وب ساده - سرگرمی تعاملی</div>
+                <div class="card" style="--i: 5;">پنل ادمین - داشبورد داده</div>
+                <div class="card" style="--i: 6;">وبسایت شرکتی - طراحی حرفه‌ای</div>
+                <div class="card" style="--i: 7;">اپلیکیشن رزرو - سیستم نوبت‌دهی</div>
+                <div class="card" style="--i: 8;">وبلاگ تعاملی - پلتفرم محتوا</div>
+            </div>
+            <p>هر پروژه یه داستان داره، اگه کنجکاوید بیشتر بدونید، باهام تماس بگیرید!</p>
+        </section>
+
+        <section id="gallery" class="section">
+            <h2>گالری من</h2>
+            <p>اینجا آثار بصری و هنری منه:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">نقاشی دیجیتال - غروب کوهستان</div>
+                <div class="card" style="--i: 2;">انیمیشن - پرواز سفینه</div>
+                <div class="card" style="--i: 3;">لوگوی برند - طراحی مینیمال</div>
+                <div class="card" style="--i: 4;">پوستر کنسرت - گرافیک جذاب</div>
+                <div class="card" style="--i: 5;">عکاسی طبیعت - جنگل بارونی</div>
+                <div class="card" style="--i: 6;">کاراکتر بازی - طراحی سه‌بعدی</div>
+                <div class="card" style="--i: 7;">طرح مفهومی - شهر آینده</div>
+                <div class="card" style="--i: 8;">انیمیشن لوگو - موشن گرافیک</div>
+            </div>
+            <p>این کارا بخشی از خلاقیت منه که توی زمان آزادم انجام می‌دم.</p>
+        </section>
+
+        <section id="blog" class="section">
+            <h2>وبلاگ من</h2>
+            <p>پست‌های وبلاگی من رو اینجا ببینید:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">
+                    <h3>شروع کدنویسی</h3>
+                    <p>راهنمای قدم به قدم برای تازه‌کارها.</p>
+                </div>
+                <div class="card" style="--i: 2;">
+                    <h3>اهمیت UI/UX</h3>
+                    <p>چرا طراحی خوب مهمه؟</p>
+                </div>
+                <div class="card" style="--i: 3;">
+                    <h3>ابزارهای طراحی</h3>
+                    <p>۵ ابزار که هر روز استفاده می‌کنم.</p>
+                </div>
+                <div class="card" style="--i: 4;">
+                    <h3>روتین روزانه</h3>
+                    <p>یه روز از زندگی من چطور می‌گذره.</p>
+                </div>
+                <div class="card" style="--i: 5;">
+                    <h3>آینده وب</h3>
+                    <p>روندهای تکنولوژی وب توی ۲۰۲۵.</p>
+                </div>
+                <div class="card" style="--i: 6;">
+                    <h3>ترفندهای CSS</h3>
+                    <p>چطور استایل بهتر بنویسیم.</p>
+                </div>
+            </div>
+            <p>اگه پیشنهادی برای موضوع دارید، بگید!</p>
+        </section>
+
+        <section id="experience" class="section">
+            <h2>تجربیات من</h2>
+            <p>مسیر حرفه‌اي من تا الان:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">
+                    <h3>طراح وب - ۱۳۹۸-۱۴۰۰</h3>
+                    <p>طراحی سایت‌های responsive.</p>
+                </div>
+                <div class="card" style="--i: 2;">
+                    <h3>برنامه‌نویس - ۱۴۰۰-۱۴۰۲</h3>
+                    <p>توسعه اپلیکیشن‌های وب.</p>
+                </div>
+                <div class="card" style="--i: 3;">
+                    <h3>فریلنسر - ۱۴۰۲-الان</h3>
+                    <p>پروژه‌های بین‌المللی.</p>
+                </div>
+                <div class="card" style="--i: 4;">
+                    <h3>مربی - ۱۴۰۱</h3>
+                    <p>آموزش طراحی وب.</p>
+                </div>
+                <div class="card" style="--i: 5;">
+                    <h3>همکاری تیمی - ۱۳۹۹</h3>
+                    <p>کار تیمی روی یه استارتاپ.</p>
+                </div>
+            </div>
+            <p>هر کدوم از اینا بهم چیزی یاد داده که الان به کارم میاد.</p>
+        </section>
+
+        <section id="store" class="section">
+            <h2>فروشگاه من</h2>
+            <p>محصولات و خدمات من:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">
+                    <h3>قالب وب - ۱۰۰ هزار تومان</h3>
+                    <p>قالب شیک و responsive.</p>
+                </div>
+                <div class="card" style="--i: 2;">
+                    <h3>دوره کدنویسی - ۵۰۰ هزار تومان</h3>
+                    <p>آموزش کامل وب.</p>
+                </div>
+                <div class="card" style="--i: 3;">
+                    <h3>طراحی لوگو - ۲۰۰ هزار تومان</h3>
+                    <p>لوگوی اختصاصی.</p>
+                </div>
+                <div class="card" style="--i: 4;">
+                    <h3>انیمیشن - ۳۰۰ هزار تومان</h3>
+                    <p>موشن تبلیغاتی.</p>
+                </div>
+                <div class="card" style="--i: 5;">
+                    <h3>پکیج گرافیک - ۱۵۰ هزار تومان</h3>
+                    <p>آیکون و المان.</p>
+                </div>
+                <div class="card" style="--i: 6;">
+                    <h3>سایت شخصی - ۱ میلیون تومان</h3>
+                    <p>سایت کامل و اختصاصی.</p>
+                </div>
+                <div class="card" style="--i: 7;">
+                    <h3>پشتیبانی - ۵۰ هزار تومان/ماه</h3>
+                    <p>پشتیبانی سایت.</p>
+                </div>
+            </div>
+            <p>برای سفارش یا سوال، باهام تماس بگیرید!</p>
+        </section>
+
+        <section id="portfolio" class="section">
+            <h2>پورتفولیو من</h2>
+            <p>نمونه‌کارهای بیشتر:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">سایت شرکتی - طراحی حرفه‌ای</div>
+                <div class="card" style="--i: 2;">اپ رزرو - رابط کاربری</div>
+                <div class="card" style="--i: 3;">مدل سه‌بعدی - شهر خیالی</div>
+                <div class="card" style="--i: 4;">وب آموزشی - پلتفرم یادگیری</div>
+                <div class="card" style="--i: 5;">پوستر - مجموعه گرافیکی</div>
+                <div class="card" style="--i: 6;">بازی آنلاین - پروژه سرگرمی</div>
+                <div class="card" style="--i: 7;">وب فروشگاهی - پلتفرم کامل</div>
+                <div class="card" style="--i: 8;">انیمیشن تبلیغ - موشن</div>
+            </div>
+            <p>برای دیدن جزئیات، باهام تماس بگیرید!</p>
+        </section>
+
+        <section id="testimonials" class="section">
+            <h2>نظرات مشتریان</h2>
+            <p>نظر کسایی که باهام کار کردن:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">
+                    <h3> - کارفرما</h3>
+                    <p>“سریع و باکیفیت، عالی بود!”</p>
+                </div>
+                <div class="card" style="--i: 2;">
+                    <h3> - مشتری</h3>
+                    <p>“لوگوم فوق‌العاده شد!”</p>
+                </div>
+                <div class="card" style="--i: 3;">
+                    <h3> - همکار</h3>
+                    <p>“حرفه‌ای و خوش‌اخلاق.”</p>
+                </div>
+                <div class="card" style="--i: 4;">
+                    <h3> - دانشجو</h3>
+                    <p>“دوره‌ش بهترین بود.”</p>
+                </div>
+                <div class="card" style="--i: 5;">
+                    <h3> - مشتری</h3>
+                    <p>“سایتم دقیقا همون چیزی شد که می‌خواستم.”</p>
+                </div>
+            </div>
+            <p>نظر شما چیه؟ بگید بهم!</p>
+        </section>
+
+        <section id="faq" class="section">
+            <h2>سوالات متداول</h2>
+            <p>جواب سوالای رایج:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">
+                    <h3>چطور باهاتون کار کنم؟</h3>
+                    <p>از بخش تماس پیام بدید.</p>
+                </div>
+                <div class="card" style="--i: 2;">
+                    <h3>هزینه‌ها چقدره؟</h3>
+                    <p>بستگی به پروژه داره، بپرسید.</p>
+                </div>
+                <div class="card" style="--i: 3;">
+                    <h3>زمان تحویل چقدره؟</h3>
+                    <p>۱ تا ۴ هفته، بسته به کار.</p>
+                </div>
+                <div class="card" style="--i: 4;">
+                    <h3>آموزش هم دارید؟</h3>
+                    <p>بله، آنلاین و حضوری.</p>
+                </div>
+                <div class="card" style="--i: 5;">
+                    <h3>پشتیبانی می‌کنید؟</h3>
+                    <p>بله، ماهیانه یا پروژه‌ای.</p>
+                </div>
+            </div>
+            <p>سوال دیگه‌ای دارید؟ بپرسید!</p>
+        </section>
+
+        <section id="events" class="section">
+            <h2>رویدادها و برنامه‌ها</h2>
+            <p>رویدادهایی که برگزار کردم یا شرکت داشتم:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">
+                    <h3>کارگاه طراحی وب - ۱۴۰۲</h3>
+                    <p>آموزش عملی طراحی سایت.</p>
+                </div>
+                <div class="card" style="--i: 2;">
+                    <h3>همایش تکنولوژی - ۱۴۰۳</h3>
+                    <p>سخنرانی درباره آینده وب.</p>
+                </div>
+                <div class="card" style="--i: 3;">
+                    <h3>وبینار کدنویسی - ۱۴۰۴</h3>
+                    <p>آموزش آنلاین جاوااسکریپت.</p>
+                </div>
+                <div class="card" style="--i: 4;">
+                    <h3>نمایشگاه طراحی - ۱۴۰۱</h3>
+                    <p>نمایش آثار گرافیکی.</p>
+                </div>
+            </div>
+            <p>برای شرکت توی رویدادهای بعدی، باهام تماس بگیرید!</p>
+        </section>
+
+        <section id="resources" class="section">
+            <h2>منابع پیشنهادی</h2>
+            <p>منابعی که به کارم اومده و به شما هم پیشنهاد می‌دم:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">
+                    <h3>کتاب: Clean Code</h3>
+                    <p>برای کدنویسی تمیز.</p>
+                </div>
+                <div class="card" style="--i: 2;">
+                    <h3>سایت: MDN Web Docs</h3>
+                    <p>مرجع کامل وب.</p>
+                </div>
+                <div class="card" style="--i: 3;">
+                    <h3>ابزار: Figma</h3>
+                    <p>طراحی رابط کاربری.</p>
+                </div>
+                <div class="card" style="--i: 4;">
+                    <h3>دوره: Codecademy</h3>
+                    <p>آموزش تعاملی کدنویسی.</p>
+                </div>
+                <div class="card" style="--i: 5;">
+                    <h3>پادکست: Syntax</h3>
+                    <p>بحث‌های تکنولوژی وب.</p>
+                </div>
+            </div>
+            <p>اگه منبع خوبی می‌شناسید، بهم بگید!</p>
+        </section>
+
+        <section id="tutorials" class="section">
+            <h2>آموزش‌های من</h2>
+            <p>ویدیوها و مقالات آموزشی من:</p>
+            <div class="grid-container">
+                <div class="card" style="--i: 1;">
+                    <h3>آموزش HTML</h3>
+                    <p>ساخت اولین صفحه وب.</p>
+                </div>
+                <div class="card" style="--i: 2;">
+                    <h3>CSS پیشرفته</h3>
+                    <p>انیمیشن و گرادیانت.</p>
+                </div>
+                <div class="card" style="--i: 3;">
+                    <h3>جاوااسکریپت مقدماتی</h3>
+                    <p>تعامل با صفحه.</p>
+                </div>
+                <div class="card" style="--i: 4;">
+                    <h3>طراحی ریسپانسیو</h3>
+                    <p>سایت برای همه دستگاه‌ها.</p>
+                </div>
+            </div>
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <p>برای آموزش‌های بیشتر، باهام تماس بگیرید!</p>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>تماس با من</h2>
+            <p>راه‌های ارتباط با من:</p>
+            <p>ایمیل: <span id="email">erfanprom@gmail.com</span></p>
+            <button onclick="changeEmail()">تغییر ایمیل</button>
+            <div class="social-links">
+                <a href="#">توییتر</a>
+                <a href="#">اینستاگرام</a>
+                <a href="#">لینکدین</a>
+                <a href="#">گیت‌هاب</a>
+                <a href="#">تلگرام</a>
+                <a href="#">واتساپ</a>
+            </div>
+            <div class="timer" id="timer"></div>
+            <p>شماره تماس:09055172682 </p>
+            <p>آدرس:تبریز </p>
+            <p>هر ایده، سوال یا پیشنهادی دارید، خوشحال می‌شم بشنوم!</p>
+        </section>
+    </div>
+    <footer>
+        <p>© 2025 - ساخته شده با عشق و تکنولوژی توسط عرفان حدادی</p>
+    </footer>
+
+    <script>
+        const navLinks = document.querySelectorAll("nav a");
+        const sections = document.querySelectorAll(".section");
+        navLinks.forEach(link => {
+            link.addEventListener("click", function() {
+                const sectionId = this.getAttribute("data-section");
+                navLinks.forEach(l => l.classList.remove("active"));
+                sections.forEach(s => s.classList.remove("active"));
+                this.classList.add("active");
+                document.getElementById(sectionId).classList.add("active");
+            });
+        });
+
+        function changeEmail() {
+            let email = document.getElementById("email");
+            email.style.transition = "all 0.8s ease";
+            email.style.opacity = 0;
+            email.style.transform = "scale(0.8)";
+            setTimeout(() => {
+                email.innerText = email.innerText === "example@email.com" ? "newemail@domain.com" : "example@email.com";
+                email.style.opacity = 1;
+                email.style.transform = "scale(1)";
+            }, 800);
+        }
+
+        let startTime = Date.now();
+        function updateTimer() {
+            let elapsed = Math.floor((Date.now() - startTime) / 1000);
+            let minutes = Math.floor(elapsed / 60);
+            let seconds = elapsed % 60;
+            document.getElementById("timer").innerText = `زمان حضور شما: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+        }
+        setInterval(updateTimer, 1000);
+
+        document.addEventListener("mousemove", (e) => {
+            const particle = document.createElement("div");
+            particle.className = "particle";
+            particle.style.left = `${e.pageX}px`;
+            particle.style.top = `${e.pageY}px`;
+            particle.style.setProperty('--x', `${Math.random() * 100 - 50}px`);
+            particle.style.setProperty('--y', `${Math.random() * 100 - 50}px`);
+            document.body.appendChild(particle);
+            setTimeout(() => particle.remove(), 2000);
+        });
+    </script>
+</body>
+</html>
